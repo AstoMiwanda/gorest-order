@@ -26,7 +26,7 @@ func orderRouter(r *mux.Router) {
 	if err != nil {
 		log.Fatalf("DB Connection error : %v", err)
 	}
-	dbConn.AutoMigrate(&model.Customer{})
+	dbConn.AutoMigrate(&model.Order{})
 	var orderRepository = repository.NewOrderRepository(dbConn)
 	var orderService = service.NewOrderService(orderRepository)
 	var gorestNotifClient = client.NewGorestNotif(os.Getenv("GOREST_NOTIF_ADDR"))

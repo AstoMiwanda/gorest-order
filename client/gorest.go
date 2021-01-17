@@ -47,8 +47,11 @@ func (c *gorestClient) GetCustomerByID(id int) (cust *model.Customer, err error)
 		return cust, fmt.Errorf("Error from gorest service : [%d] %v", resp.StatusCode, string(body))
 	}
 
-	cust = &model.Customer{}
-	err = json.NewDecoder(resp.Body).Decode(cust)
+	var customerResponse = struct {
+		Data model.Customer `json:"message"`
+	}{}
 
-	return
+	err = json.NewDecoder(resp.Body).Decode(&customerResponse)
+	cust = &customerResponse.Data
+	return cust, err
 }
